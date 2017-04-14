@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    tools:context="com.lzr.autolayout.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="160px"
+            android:layout_marginBottom="100px"
+            android:background="#5566ff"
+            android:gravity="center"
+            android:text="DPI计算器"
+
+            android:textSize="50px" />
+
+
+        <Button
+            android:id="@+id/btn_skip"
+            android:layout_width="160px"
+            android:layout_height="160px"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:text="跳过"
+            android:textSize="40px" />
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_width"
+            android:layout_width="400px"
+            android:layout_height="120px"
+            android:gravity="center"
+            android:text="输入屏幕分辨率(宽):"
+            android:textSize="40px" />
+
+        <EditText
+            android:id="@+id/et_width"
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_toRightOf="@+id/tv_width"
+            android:background="#ffffff"
+            android:gravity="center_vertical" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#220000" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_height"
+            android:layout_width="400px"
+            android:layout_height="120px"
+            android:gravity="center"
+            android:text="输入屏幕分辨率(高):"
+            android:textSize="40px" />
+
+        <EditText
+            android:id="@+id/et_height"
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_toRightOf="@+id/tv_height"
+            android:background="#ffffff"
+            android:gravity="center_vertical" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#220000" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_chicun"
+            android:layout_width="400px"
+            android:layout_height="120px"
+            android:gravity="center"
+            android:text="输入屏幕尺寸:"
+            android:textSize="40px" />
+
+        <EditText
+            android:id="@+id/et_chicun"
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_toRightOf="@+id/tv_chicun"
+            android:background="#ffffff"
+            android:gravity="center_vertical" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#220000" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="400px"
+        android:layout_height="120px"
+        android:layout_gravity="center"
+        android:layout_marginTop="20px"
+        android:background="#5566ff"
+        android:text="确定"
+        android:textSize="50px" />
+
+    <TextView
+        android:id="@+id/tv_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px"
+        android:text="结果为:"
+        android:textSize="50px" />
+
+</LinearLayout>
