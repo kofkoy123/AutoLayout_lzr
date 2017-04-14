@@ -7,34 +7,9 @@
     android:orientation="vertical"
     tools:context="com.lzr.autolayout.MainActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="160px"
-            android:layout_marginBottom="100px"
-            android:background="#5566ff"
-            android:gravity="center"
-            android:text="DPI计算器"
-
-            android:textSize="50px" />
-
-
-        <Button
-            android:id="@+id/btn_skip"
-            android:layout_width="160px"
-            android:layout_height="160px"
-            android:layout_alignParentRight="true"
-            android:background="@null"
-            android:text="跳过"
-            android:textSize="40px" />
-
-
-    </RelativeLayout>
-
+    <include
+        android:id="@+id/main_title"
+        layout="@layout/app_title" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -54,6 +29,7 @@
             android:layout_height="120px"
             android:layout_toRightOf="@+id/tv_width"
             android:background="#ffffff"
+            android:textSize="40px"
             android:gravity="center_vertical" />
 
     </RelativeLayout>
@@ -79,6 +55,7 @@
             android:id="@+id/et_height"
             android:layout_width="match_parent"
             android:layout_height="120px"
+            android:textSize="40px"
             android:layout_toRightOf="@+id/tv_height"
             android:background="#ffffff"
             android:gravity="center_vertical" />
@@ -105,6 +82,7 @@
             android:id="@+id/et_chicun"
             android:layout_width="match_parent"
             android:layout_height="120px"
+            android:textSize="40px"
             android:layout_toRightOf="@+id/tv_chicun"
             android:background="#ffffff"
             android:gravity="center_vertical" />
@@ -132,5 +110,14 @@
         android:layout_marginTop="20px"
         android:text="结果为:"
         android:textSize="50px" />
+    <Button
+        android:id="@+id/btn_goto_card"
+        android:layout_width="400px"
+        android:layout_height="120px"
+        android:layout_gravity="center"
+        android:layout_marginTop="20px"
+        android:background="#5566ff"
+        android:text="卡片"
+        android:textSize="50px"/>
 
 </LinearLayout>

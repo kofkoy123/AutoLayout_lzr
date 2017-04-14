@@ -23,7 +23,8 @@
             android:name="design_height"
             android:value="1920" />
 
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".CardActivity"></activity>
     </application>
 
 </manifest>

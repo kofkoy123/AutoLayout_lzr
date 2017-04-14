@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private EditText etWidth, etHeight, etChicun;
-    private Button btnSkip, btnSubmit;
-    private TextView tvResult;
+    private Button btnSkip, btnSubmit, btnCard;
+    private TextView tvResult, tvTitle;
+    private ImageView ivBack;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,16 +29,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void setListeners() {
         btnSkip.setOnClickListener(this);
         btnSubmit.setOnClickListener(this);
+        btnCard.setOnClickListener(this);
     }
 
     private void initViews() {
+
         etWidth = (EditText) findViewById(R.id.et_width);
         etHeight = (EditText) findViewById(R.id.et_height);
         etChicun = (EditText) findViewById(R.id.et_chicun);
         btnSkip = (Button) findViewById(R.id.btn_skip);
+        tvTitle = (TextView) findViewById(R.id.tv_title);
+        ivBack = (ImageView) findViewById(R.id.iv_back);
         btnSubmit = (Button) findViewById(R.id.btn_submit);
         tvResult = (TextView) findViewById(R.id.tv_result);
-
+        btnCard = (Button) findViewById(R.id.btn_goto_card);
+        ivBack.setVisibility(View.GONE);
+        tvTitle.setText("新闻");
     }
 
     @Override
@@ -46,6 +55,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btn_submit:
                 compute();
+                break;
+            case R.id.btn_goto_card:
+                startActivity(new Intent(this, CardActivity.class));
                 break;
         }
     }
