@@ -50,6 +50,7 @@ public class CardActivity extends BaseActivity implements View.OnClickListener, 
         adpater = new MyAdapter(lists);
 
         rvContents.setAdapter(adpater);
+
         //添加加载时颜色变化
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,android.R.color.holo_orange_light,
