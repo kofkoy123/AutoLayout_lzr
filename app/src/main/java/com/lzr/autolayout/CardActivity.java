@@ -48,6 +48,7 @@ public class CardActivity extends BaseActivity implements View.OnClickListener, 
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvContents.setHasFixedSize(true);
         adpater = new MyAdapter(lists);
+
         rvContents.setAdapter(adpater);
         //添加加载时颜色变化
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light,
