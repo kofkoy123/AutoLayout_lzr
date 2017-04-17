@@ -1,12 +1,13 @@
 package com.lzr.autolayout;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CardActivity extends BaseActivity implements View.OnClickListener {
+public class CardActivity extends BaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private TextView tvTitle;
     private Button btnSkip;
@@ -27,6 +28,8 @@ public class CardActivity extends BaseActivity implements View.OnClickListener {
     private RecyclerView rvContents;
     private List<ImageInfor> lists;
     private MyAdapter adpater;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +48,46 @@ public class CardActivity extends BaseActivity implements View.OnClickListener {
         //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         rvContents.setHasFixedSize(true);
         adpater = new MyAdapter(lists);
+
         rvContents.setAdapter(adpater);
+        //添加加载时颜色变化
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light,
+                android.R.color.holo_red_light,android.R.color.holo_orange_light,
+                android.R.color.holo_green_light);
+        //调整进度条距离屏幕顶部的距离
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
+                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
+                        .getDisplayMetrics()));
+        rvContents.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+
+
+            }
+        });
 
         adpater.setOnItemClickListener(new MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
-                Toast.makeText(getApplication(),"点击了：" + postion,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), "点击了：" + postion, Toast.LENGTH_SHORT).show();
             }
         });
 
         ItemTouchHelper.Callback callback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.DOWN | ItemTouchHelper.UP
-                | ItemTouchHelper.RIGHT| ItemTouchHelper.LEFT, ItemTouchHelper.RIGHT| ItemTouchHelper.LEFT | ItemTouchHelper.START
-                |ItemTouchHelper.END) {
+                | ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT | ItemTouchHelper.START
+                | ItemTouchHelper.END) {
+
+
+            /**
+             * 当Item被拖拽的时候被回调
+             *
+             * @param recyclerView     recyclerView
+             * @param viewHolder    拖拽的ViewHolder
+             * @param target 目的地的viewHolder
+             * @return
+             */
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 Collections.swap(lists, viewHolder.getAdapterPosition(), target.getAdapterPosition());
@@ -64,16 +95,22 @@ public class CardActivity extends BaseActivity implements View.OnClickListener {
                 return true;
             }
 
+            /**
+             *   当滑动的时候调用
+             * @param viewHolder
+             * @param direction
+             */
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 lists.remove(viewHolder.getAdapterPosition());
                 adpater.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
+
+
             @Override
             public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
                 super.onSelectedChanged(viewHolder, actionState);
-                if (viewHolder != null){
-                    viewHolder.itemView.setBackgroundColor(Color.LTGRAY);
+                if (viewHolder != null && actionState != ItemTouchHelper.ACTION_STATE_SWIPE) {
                     viewHolder.itemView.setScaleX(1.5F);
                     viewHolder.itemView.setScaleY(1.5F);
                 }
@@ -82,33 +119,33 @@ public class CardActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
                 super.clearView(recyclerView, viewHolder);
-                viewHolder.itemView.setBackgroundColor(Color.TRANSPARENT);
+
                 viewHolder.itemView.setScaleX(1F);
                 viewHolder.itemView.setScaleY(1F);
             }
 
-            @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
-                    final float alpha = 1.0f - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
-                    viewHolder.itemView.setAlpha(alpha);
-                    viewHolder.itemView.setTranslationX(dX);
-                }
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
+//            @Override
+//            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+//                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+//                    final float alpha = 1.0f - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
+//                    viewHolder.itemView.setAlpha(alpha);
+//                    viewHolder.itemView.setTranslationX(dX);
+//                }
+//                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+//            }
         };
         ItemTouchHelper helper = new ItemTouchHelper(callback);
-        helper.attachToRecyclerView( rvContents);
+        helper.attachToRecyclerView(rvContents);
     }
 
     private void initDatas() {
         lists = new ArrayList<>();
-        lists.add(new ImageInfor(R.mipmap.ic_launcher, "安卓"));
-        lists.add(new ImageInfor(R.mipmap.ic_launcher, "Win"));
-        lists.add(new ImageInfor(R.mipmap.ic_launcher, "苹果"));
-        lists.add(new ImageInfor(R.mipmap.ic_launcher, "黑莓"));
-        lists.add(new ImageInfor(R.mipmap.ic_launcher, "华为"));
-        lists.add(new ImageInfor(R.mipmap.ic_launcher, "小米"));
+        lists.add(new ImageInfor(R.mipmap.timg, "安卓"));
+        lists.add(new ImageInfor(R.mipmap.timg, "Win"));
+        lists.add(new ImageInfor(R.mipmap.timg, "苹果"));
+        lists.add(new ImageInfor(R.mipmap.timg, "黑莓"));
+        lists.add(new ImageInfor(R.mipmap.timg, "华为"));
+        lists.add(new ImageInfor(R.mipmap.timg, "小米"));
     }
 
     private void initViews() {
@@ -116,9 +153,11 @@ public class CardActivity extends BaseActivity implements View.OnClickListener {
         ivBack = (ImageView) findViewById(R.id.iv_back);
         btnSkip = (Button) findViewById(R.id.btn_skip);
         rvContents = (RecyclerView) findViewById(R.id.rv_contents);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.card_refresh);
         tvTitle.setText("卡片");
         btnSkip.setVisibility(View.GONE);
         ivBack.setOnClickListener(this);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -126,11 +165,45 @@ public class CardActivity extends BaseActivity implements View.OnClickListener {
         finish();
     }
 
+    /**
+     * recyclerview下拉刷新
+     */
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<ImageInfor> newDatas = new ArrayList<ImageInfor>();
+                for (int i = 0; i < 5; i++) {
+                    int index = i + 1;
+                    newDatas.add(new ImageInfor(R.mipmap.timg, index + ""));
+                }
+                adpater.addItem(newDatas);
+                //设置SwipeRefreshLayout当前是否处于刷新状态，一般是在请求数据的时候设置为true，在数据被加载到View中后，设置为false。
+                mSwipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(CardActivity.this, "更新了五条数据...", Toast.LENGTH_SHORT).show();
+            }
+        }, 5000);
+    }
+
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         private List<ImageInfor> list;
 
         public MyAdapter(List<ImageInfor> list) {
             this.list = list;
+        }
+
+        /**
+         *  添加数据
+         * @param newLists
+         */
+        public void addItem(List<ImageInfor> newLists) {
+            //新集合中添加旧有数据,然后清除旧数据集合,
+            // 旧集合重新添加新集合,,完成排序,否则新增数据会在最底出现
+            newLists.addAll(list);
+            list.removeAll(list);
+            list.addAll(newLists);
+            notifyDataSetChanged();
         }
 
         @Override

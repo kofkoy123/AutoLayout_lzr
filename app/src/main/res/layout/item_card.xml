@@ -5,6 +5,7 @@
     android:id="@+id/cv_cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="#ffffff"
     app:cardCornerRadius="10px"
     app:cardElevation="10px">
@@ -27,7 +28,7 @@
             android:layout_marginBottom="20px"
             android:layout_marginRight="20px"
             android:gravity="right|bottom"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="50px" />
     </RelativeLayout>
 
