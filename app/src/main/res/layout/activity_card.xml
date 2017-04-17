@@ -6,17 +6,22 @@
     android:layout_height="match_parent"
     tools:context="com.lzr.autolayout.CardActivity">
 
-
     <include
         android:id="@+id/card_title"
         layout="@layout/app_title" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_contents"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/card_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/card_title"
-        android:layout_marginTop="10px" />
+        android:scrollbars="vertical">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_contents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10px" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
